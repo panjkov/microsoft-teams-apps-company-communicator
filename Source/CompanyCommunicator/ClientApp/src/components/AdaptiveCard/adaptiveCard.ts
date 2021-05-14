@@ -2,6 +2,21 @@
 // Licensed under the MIT License.
 
 import { TFunction } from "i18next";
+import * as AdaptiveCards from "adaptivecards";
+import MarkdownIt from "markdown-it";
+
+// Static method to render markdown on the adaptive card
+AdaptiveCards.AdaptiveCard.onProcessMarkdown = function (text, result) {
+    var md = new MarkdownIt();
+    // Teams only supports a subset of markdown as per https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/cards/cards-format?tabs=adaptive-md%2Cconnector-html#formatting-cards-with-markdown
+    md.disable(['image', 'table', 'heading',
+        'hr', 'code', 'reference',
+        'lheading', 'html_block', 'fence',
+        'blockquote', 'strikethrough']);
+    // renders the text
+    result.outputHtml = md.render(text);
+    result.didProcess = true;
+}
 
 export const getInitAdaptiveCard = (t: TFunction) => {
     const titleTextAsString = t("TitleText");
