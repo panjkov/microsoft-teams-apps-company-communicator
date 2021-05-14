@@ -48,6 +48,16 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Models
         public string ButtonLink { get; set; }
 
         /// <summary>
+        /// Gets or sets the Button Title value.
+        /// </summary>
+        public string Button2Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Button Link value.
+        /// </summary>
+        public string Button2Link { get; set; }
+
+        /// <summary>
         /// Gets or sets the Created DateTime value.
         /// </summary>
         public DateTime CreatedDateTime { get; set; }

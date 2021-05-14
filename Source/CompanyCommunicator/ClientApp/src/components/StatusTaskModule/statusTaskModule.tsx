@@ -12,7 +12,7 @@ import { Loader, List, Image, Button, DownloadIcon, AcceptIcon, Flex } from '@fl
 import * as microsoftTeams from "@microsoft/teams-js";
 import {
     getInitAdaptiveCard, setCardTitle, setCardImageLink, setCardSummary,
-    setCardAuthor, setCardBtn
+    setCardAuthor, setCardBtn, setCardBtns
 } from '../AdaptiveCard/adaptiveCard';
 import { ImageUtil } from '../../utility/imageutility';
 import { formatDate, formatDuration, formatNumber } from '../../i18n';
@@ -38,6 +38,8 @@ export interface IMessage {
     author?: string;
     buttonLink?: string;
     buttonTitle?: string;
+    button2Link?: string;
+    button2Title?: string;
     teamNames?: string[];
     rosterNames?: string[];
     groupNames?: string[];
@@ -104,6 +106,9 @@ class StatusTaskModule extends React.Component<StatusTaskModuleProps, IStatusSta
                     setCardAuthor(this.card, this.state.message.author);
                     if (this.state.message.buttonTitle !== "" && this.state.message.buttonLink !== "") {
                         setCardBtn(this.card, this.state.message.buttonTitle, this.state.message.buttonLink);
+                    }
+                    if (this.state.message.buttonTitle !== "" && this.state.message.buttonLink !== "" && this.state.message.button2Title !== "" && this.state.message.button2Link !== "") {
+                        setCardBtns(this.card, this.state.message.buttonTitle, this.state.message.buttonLink,this.state.message.button2Title, this.state.message.button2Link);
                     }
 
                     let adaptiveCard = new AdaptiveCards.AdaptiveCard();

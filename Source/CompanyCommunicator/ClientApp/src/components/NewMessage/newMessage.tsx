@@ -14,7 +14,7 @@ import './teamTheme.scss';
 import { getDraftNotification, getTeams, createDraftNotification, updateDraftNotification, searchGroups, getGroups, verifyGroupAccess } from '../../apis/messageListApi';
 import {
     getInitAdaptiveCard, setCardTitle, setCardImageLink, setCardSummary,
-    setCardAuthor, setCardBtn
+    setCardAuthor, setCardBtn, setCardBtns
 } from '../AdaptiveCard/adaptiveCard';
 import { getBaseUrl } from '../../configVariables';
 import { ImageUtil } from '../../utility/imageutility';
@@ -38,6 +38,8 @@ export interface IDraftMessage {
     author: string,
     buttonTitle?: string,
     buttonLink?: string,
+    button2Title?: string,
+    button2Link?: string,
     teams: any[],
     rosters: any[],
     groups: any[],
@@ -48,8 +50,10 @@ export interface formState {
     title: string,
     summary?: string,
     btnLink?: string,
+    btn2Link?: string,
     imageLink?: string,
     btnTitle?: string,
+    btn2Title?: string,
     author: string,
     card?: any,
     page: string,
@@ -75,6 +79,7 @@ export interface formState {
     selectedGroups: dropdownItem[],
     errorImageUrlMessage: string,
     errorButtonUrlMessage: string,
+    errorButton2UrlMessage: string,
 }
 
 export interface INewMessageProps extends RouteComponentProps, WithTranslation {
@@ -97,8 +102,10 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             summary: "",
             author: "",
             btnLink: "",
+            btn2Link: "",
             imageLink: "",
             btnTitle: "",
+            btn2Title: "",
             card: this.card,
             page: "CardCreation",
             teamsOptionSelected: true,
@@ -120,6 +127,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             selectedGroups: [],
             errorImageUrlMessage: "",
             errorButtonUrlMessage: "",
+            errorButton2UrlMessage: "",
         }
     }
 
@@ -160,6 +168,10 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
                     if (this.state.btnLink) {
                         let link = this.state.btnLink;
                         adaptiveCard.onExecuteAction = function (action) { window.open(link, '_blank'); };
+                    }
+                    if (this.state.btn2Link) {
+                        let link2 = this.state.btn2Link;
+                        adaptiveCard.onExecuteAction = function (action) { window.open(link2, '_blank'); };
                     }
                 })
             }
@@ -212,7 +224,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardImageLink(card, imgUrl);
         setCardSummary(card, summaryAsString);
         setCardAuthor(card, authorAsString);
-        setCardBtn(card, buttonTitleAsString, "https://adaptivecards.io");
+        setCardBtns(card, buttonTitleAsString, "https://adaptivecards.io", buttonTitleAsString, "https://adaptivecards.io");
     }
 
     private getTeamList = async () => {
@@ -295,14 +307,16 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             setCardImageLink(this.card, draftMessageDetail.imageLink);
             setCardSummary(this.card, draftMessageDetail.summary);
             setCardAuthor(this.card, draftMessageDetail.author);
-            setCardBtn(this.card, draftMessageDetail.buttonTitle, draftMessageDetail.buttonLink);
+            setCardBtns(this.card, draftMessageDetail.buttonTitle, draftMessageDetail.buttonLink, draftMessageDetail.button2Title, draftMessageDetail.button2Link);
 
             this.setState({
                 title: draftMessageDetail.title,
                 summary: draftMessageDetail.summary,
                 btnLink: draftMessageDetail.buttonLink,
+                btn2Link: draftMessageDetail.button2Link,
                 imageLink: draftMessageDetail.imageLink,
                 btnTitle: draftMessageDetail.buttonTitle,
+                btn2Title: draftMessageDetail.button2Title,
                 author: draftMessageDetail.author,
                 allUsersOptionSelected: draftMessageDetail.allUsers,
                 loader: false
@@ -388,6 +402,24 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
                                             autoComplete="off"
                                         />
                                         <Text className={(this.state.errorButtonUrlMessage === "") ? "hide" : "show"} error size="small" content={this.state.errorButtonUrlMessage} />
+                                        <Input className="inputField"
+                                            fluid
+                                            value={this.state.btn2Title}
+                                            label={this.localize("ButtonTitle")}
+                                            placeholder={this.localize("ButtonTitle")}
+                                            onChange={this.onBtn2TitleChanged}
+                                            autoComplete="off"
+                                        />
+                                        <Input className="inputField"
+                                            fluid
+                                            value={this.state.btn2Link}
+                                            label={this.localize("ButtonURL")}
+                                            placeholder={this.localize("ButtonURL")}
+                                            onChange={this.onBtn2LinkChanged}
+                                            error={!(this.state.errorButton2UrlMessage === "")}
+                                            autoComplete="off"
+                                        />
+                                        <Text className={(this.state.errorButton2UrlMessage === "") ? "hide" : "show"} error size="small" content={this.state.errorButton2UrlMessage} />
                                     </Flex>
                                 </Flex.Item>
                                 <Flex.Item size="size.half">
@@ -714,6 +746,8 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             author: this.state.author,
             buttonTitle: this.state.btnTitle,
             buttonLink: this.state.btnLink,
+            button2Title: this.state.btn2Title,
+            button2Link: this.state.btn2Link,
             teams: selectedTeams,
             rosters: selctedRosters,
             groups: selectedGroups,
@@ -775,7 +809,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardImageLink(this.card, this.state.imageLink);
         setCardSummary(this.card, this.state.summary);
         setCardAuthor(this.card, this.state.author);
-        setCardBtn(this.card, this.state.btnTitle, this.state.btnLink);
+        setCardBtns(this.card, this.state.btnTitle, this.state.btnLink, this.state.btn2Title, this.state.btn2Link);
         this.setState({
             title: event.target.value,
             card: this.card
@@ -804,7 +838,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardImageLink(this.card, event.target.value);
         setCardSummary(this.card, this.state.summary);
         setCardAuthor(this.card, this.state.author);
-        setCardBtn(this.card, this.state.btnTitle, this.state.btnLink);
+        setCardBtns(this.card, this.state.btnTitle, this.state.btnLink, this.state.btn2Title, this.state.btn2Link);
         this.setState({
             imageLink: event.target.value,
             card: this.card
@@ -822,7 +856,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardImageLink(this.card, this.state.imageLink);
         setCardSummary(this.card, event.target.value);
         setCardAuthor(this.card, this.state.author);
-        setCardBtn(this.card, this.state.btnTitle, this.state.btnLink);
+        setCardBtns(this.card, this.state.btnTitle, this.state.btnLink, this.state.btn2Title, this.state.btn2Link);
         this.setState({
             summary: event.target.value,
             card: this.card
@@ -840,7 +874,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardImageLink(this.card, this.state.imageLink);
         setCardSummary(this.card, this.state.summary);
         setCardAuthor(this.card, event.target.value);
-        setCardBtn(this.card, this.state.btnTitle, this.state.btnLink);
+        setCardBtns(this.card, this.state.btnTitle, this.state.btnLink, this.state.btn2Title, this.state.btn2Link);
         this.setState({
             author: event.target.value,
             card: this.card
@@ -859,7 +893,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardSummary(this.card, this.state.summary);
         setCardAuthor(this.card, this.state.author);
         if (event.target.value && this.state.btnLink) {
-            setCardBtn(this.card, event.target.value, this.state.btnLink);
+            setCardBtns(this.card, event.target.value, this.state.btnLink, this.state.btn2Title, this.state.btn2Link);
             this.setState({
                 btnTitle: event.target.value,
                 card: this.card
@@ -873,6 +907,36 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             delete this.card.actions;
             this.setState({
                 btnTitle: event.target.value,
+            }, () => {
+                if (showDefaultCard) {
+                    this.setDefaultCard(this.card);
+                }
+                this.updateCard();
+            });
+        }
+    }
+
+    private onBtn2TitleChanged = (event: any) => {
+        const showDefaultCard = (!this.state.title && !this.state.imageLink && !this.state.summary && !this.state.author  && !this.state.btnTitle && !this.state.btnLink && !event.target.value && !this.state.btn2Link);
+        setCardTitle(this.card, this.state.title);
+        setCardImageLink(this.card, this.state.imageLink);
+        setCardSummary(this.card, this.state.summary);
+        setCardAuthor(this.card, this.state.author);
+        if (event.target.value && this.state.btn2Link) {
+            setCardBtns(this.card, this.state.btnTitle, this.state.btnLink, event.target.value, this.state.btn2Link);
+            this.setState({
+                btn2Title: event.target.value,
+                card: this.card
+            }, () => {
+                if (showDefaultCard) {
+                    this.setDefaultCard(this.card);
+                }
+                this.updateCard();
+            });
+        } else {
+            delete this.card.actions;
+            this.setState({
+                btn2Title: event.target.value,
             }, () => {
                 if (showDefaultCard) {
                     this.setDefaultCard(this.card);
@@ -899,7 +963,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         setCardAuthor(this.card, this.state.author);
         setCardImageLink(this.card, this.state.imageLink);
         if (this.state.btnTitle && event.target.value) {
-            setCardBtn(this.card, this.state.btnTitle, event.target.value);
+            setCardBtns(this.card, this.state.btnTitle, event.target.value,this.state.btn2Title,this.state.btn2Link);
             this.setState({
                 btnLink: event.target.value,
                 card: this.card
@@ -922,6 +986,46 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         }
     }
 
+    private onBtn2LinkChanged = (event: any) => {
+        if (!(event.target.value === "" || event.target.value.toLowerCase().startsWith("https://"))) {
+            this.setState({
+                errorButton2UrlMessage: this.localize("ErrorURLMessage")
+            });
+        } else {
+            this.setState({
+                errorButton2UrlMessage: ""
+            });
+        }
+
+        const showDefaultCard = (!this.state.title && !this.state.imageLink && !this.state.summary && !this.state.author && !this.state.btnTitle && !this.state.btnLink && !this.state.btn2Title && !event.target.value);
+        setCardTitle(this.card, this.state.title);
+        setCardSummary(this.card, this.state.summary);
+        setCardAuthor(this.card, this.state.author);
+        setCardImageLink(this.card, this.state.imageLink);
+        if (this.state.btn2Title && event.target.value) {
+            setCardBtns(this.card, this.state.btnTitle, this.state.btnLink, this.state.btn2Title, event.target.value);
+            this.setState({
+                btn2Link: event.target.value,
+                card: this.card
+            }, () => {
+                if (showDefaultCard) {
+                    this.setDefaultCard(this.card);
+                }
+                this.updateCard();
+            });
+        } else {
+            delete this.card.actions;
+            this.setState({
+                btn2Link: event.target.value
+            }, () => {
+                if (showDefaultCard) {
+                    this.setDefaultCard(this.card);
+                }
+                this.updateCard();
+            });
+        }
+    }
+
     private updateCard = () => {
         const adaptiveCard = new AdaptiveCards.AdaptiveCard();
         adaptiveCard.parse(this.state.card);
@@ -934,6 +1038,8 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         }
         const link = this.state.btnLink;
         adaptiveCard.onExecuteAction = function (action) { window.open(link, '_blank'); }
+        const link2 = this.state.btn2Link;
+        adaptiveCard.onExecuteAction = function (action) { window.open(link2, '_blank'); }
     }
 }
 

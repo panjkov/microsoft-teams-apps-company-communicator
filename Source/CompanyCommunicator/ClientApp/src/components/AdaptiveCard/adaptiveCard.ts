@@ -96,3 +96,41 @@ export const setCardBtn = (card: any, buttonTitle?: string, buttonLink?: string)
         delete card.actions;
     }
 }
+
+export const setCardBtns = (card: any, buttonTitle?: string, buttonLink?: string, button2Title?: string, button2Link?: string) => {
+    if (buttonTitle && buttonLink && button2Title && button2Link) {
+        card.actions = [
+            {
+                "type": "Action.OpenUrl",
+                "title": buttonTitle,
+                "url": buttonLink
+            },
+            {
+                "type": "Action.OpenUrl",
+                "title": button2Title,
+                "url": button2Link
+            }
+        ];
+    } else if (buttonTitle && buttonLink) {
+        card.actions = [
+            {
+                "type": "Action.OpenUrl",
+                "title": buttonTitle,
+                "url": buttonLink
+            }
+        ];
+    }
+    else if (button2Title && button2Link) {
+        card.actions = [
+            {
+                "type": "Action.OpenUrl",
+                "title": button2Title,
+                "url": button2Link
+            }
+        ];
+    }
+     
+    else {
+        delete card.actions;
+    }
+}

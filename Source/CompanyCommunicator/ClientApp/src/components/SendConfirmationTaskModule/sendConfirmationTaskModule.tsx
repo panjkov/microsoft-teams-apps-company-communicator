@@ -12,7 +12,7 @@ import './sendConfirmationTaskModule.scss';
 import { getDraftNotification, getConsentSummaries, sendDraftNotification } from '../../apis/messageListApi';
 import {
     getInitAdaptiveCard, setCardTitle, setCardImageLink, setCardSummary,
-    setCardAuthor, setCardBtn
+    setCardAuthor, setCardBtn, setCardBtns
 } from '../AdaptiveCard/adaptiveCard';
 import { ImageUtil } from '../../utility/imageutility';
 import { TFunction } from "i18next";
@@ -37,6 +37,8 @@ export interface IMessage {
     author?: string;
     buttonLink?: string;
     buttonTitle?: string;
+    button2Link?: string;
+    button2Title?: string;
 }
 
 export interface SendConfirmationTaskModuleProps extends RouteComponentProps, WithTranslation {
@@ -102,6 +104,9 @@ class SendConfirmationTaskModule extends React.Component<SendConfirmationTaskMod
                             setCardAuthor(this.card, this.state.message.author);
                             if (this.state.message.buttonTitle && this.state.message.buttonLink) {
                                 setCardBtn(this.card, this.state.message.buttonTitle, this.state.message.buttonLink);
+                            }
+                            if (this.state.message.buttonTitle && this.state.message.buttonLink && this.state.message.button2Title && this.state.message.button2Link) {
+                                setCardBtns(this.card, this.state.message.buttonTitle, this.state.message.buttonLink, this.state.message.button2Title, this.state.message.button2Link);
                             }
 
                             let adaptiveCard = new AdaptiveCards.AdaptiveCard();

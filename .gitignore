@@ -338,3 +338,23 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+.env
+.github/workflows/companycommpanjkov0521-function.yml
+Manifest/company-communicator-authors.zip
+Manifest/company-communicator-users.zip
+Manifest/manifest_authors.json
+Manifest/manifest_authors.json
+Manifest/manifest.json
+Source/CompanyCommunicator.Send.Func/local.settings copy.json
+Source/CompanyCommunicator/Properties/ServiceDependencies/companycommpanjkov0521 - Web Deploy/storage1.arm.json
+Source/CompanyCommunicator.Send.Func/Properties/ServiceDependencies/companycommpanjkov0521-function - Web Deploy/profile.arm.json
+Source/CompanyCommunicator.Prep.Func/Properties/ServiceDependencies/companycommpanjkov0521-prep-function - Web Deploy/storage1.arm.json
+Source/CompanyCommunicator.Prep.Func/Properties/ServiceDependencies/companycommpanjkov0521-prep-function - Web Deploy/profile.arm.json
+Source/CompanyCommunicator.Prep.Func/Properties/serviceDependencies.json
+Source/CompanyCommunicator.Prep.Func/Properties/serviceDependencies.companycommpanjkov0521-prep-function - Web Deploy.json
+Source/CompanyCommunicator.Data.Func/Properties/ServiceDependencies/companycommpanjkov0521-data-function - Zip Deploy/storage1.arm.json
+Source/CompanyCommunicator.Data.Func/Properties/ServiceDependencies/companycommpanjkov0521-data-function - Zip Deploy/profile.arm.json
+Source/CompanyCommunicator.Data.Func/Properties/serviceDependencies.companycommpanjkov0521-data-function - Zip Deploy.json
+Source/CompanyCommunicator/Properties/ServiceDependencies/companycommpanjkov0521 - Web Deploy/profile.arm.json
+Source/CompanyCommunicator/Properties/ServiceDependencies/companycommpanjkov0521 - Web Deploy/appInsights1.arm.json
+Source/CompanyCommunicator/Properties/serviceDependencies.companycommpanjkov0521 - Web Deploy.json

@@ -57,6 +57,16 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
         public string ButtonLink { get; set; }
 
         /// <summary>
+        /// Gets or sets the button title of the notification's content.
+        /// </summary>
+        public string Button2Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the button link of the notification's content.
+        /// </summary>
+        public string Button2Link { get; set; }
+
+        /// <summary>
         /// Gets or sets the information for the user that created the notification.
         /// </summary>
         public string CreatedBy { get; set; }

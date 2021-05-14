@@ -27,7 +27,9 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.AdaptiveCard
                 notificationDataEntity.Summary,
                 notificationDataEntity.Author,
                 notificationDataEntity.ButtonTitle,
-                notificationDataEntity.ButtonLink);
+                notificationDataEntity.ButtonLink,
+                notificationDataEntity.Button2Title,
+                notificationDataEntity.Button2Link);
         }
 
         /// <summary>
@@ -39,6 +41,8 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.AdaptiveCard
         /// <param name="author">The adaptive card's author value.</param>
         /// <param name="buttonTitle">The adaptive card's button title value.</param>
         /// <param name="buttonUrl">The adaptive card's button url value.</param>
+        /// <param name="button2Title">The adaptive card's button 2 title value.</param>
+        /// <param name="button2Url">The adaptive card's button 2 url value.</param>
         /// <returns>The created adaptive card instance.</returns>
         public AdaptiveCard CreateAdaptiveCard(
             string title,
@@ -46,7 +50,9 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.AdaptiveCard
             string summary,
             string author,
             string buttonTitle,
-            string buttonUrl)
+            string buttonUrl,
+            string button2Title,
+            string button2Url)
         {
             var version = new AdaptiveSchemaVersion(1, 0);
             AdaptiveCard card = new AdaptiveCard(version);
@@ -97,6 +103,16 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.AdaptiveCard
                 {
                     Title = buttonTitle,
                     Url = new Uri(buttonUrl, UriKind.RelativeOrAbsolute),
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(button2Title)
+                && !string.IsNullOrWhiteSpace(button2Url))
+            {
+                card.Actions.Add(new AdaptiveOpenUrlAction()
+                {
+                    Title = button2Title,
+                    Url = new Uri(button2Url, UriKind.RelativeOrAbsolute),
                 });
             }
 
